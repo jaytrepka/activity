@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+}
+
+.row {
+  display: flex;
+  flex: 1;
+  border-left: 4px solid black;
+  border-right: 4px solid black;
+  /* min-height: 60px; commented because of iphone5 */
+}
+.row:nth-child(odd) {
+  flex-direction: row-reverse;
+}
+.row .col {
+  display: flex;
+  padding: 2px;
+}
+.row .col:not(:last-child) {
+  border-bottom: 4px solid black;
+}
+.row:first-child .col:not(:first-child) {
+  border-top: 4px solid black;
+}
+
+.background-0-0 .field {
+  background-color: lightblue;
+}
+.background-0-1 .field {
+  background-color: royalblue;
+}
+.background-1-0 .field {
+  background-color: yellow;
+}
+.background-1-1 .field {
+  background-color: green;
+}
+.background-2-0 .field {
+  background-color: purple;
+}
+.background-2-1 .field {
+  background-color: orange;
+}
+
+.field {
+  display: flex;
+  flex: 1;
+}
+
+.player {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: brown;
+  border-radius: 12px;
+}
+.player.active {
+  border: 1px solid black;
+  z-index: 5;
+}

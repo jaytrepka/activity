@@ -1,14 +1,22 @@
-import React, {Component} from 'react'
-import {browserHistory} from 'react-router'
-import Routes from './routes'
-class Root extends Component {
+import React, { Component } from "react";
+import { init as firebaseInit } from "../javascripts/firebase";
+import { browserHistory } from "react-router";
+import Routes from "./routes";
+import { Provider } from "react-redux";
+import configureStore from "./configureStore";
+
+export default class Root extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    firebaseInit();
+    this.store = configureStore();
+    console.log("rroot", this.store.getState());
   }
-render() {
+  render() {
     return (
-      <Routes history={browserHistory}/>
-    )
+      <Provider store={this.store}>
+        <Routes history={browserHistory} />
+      </Provider>
+    );
   }
 }
-export default Root
