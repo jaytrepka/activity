@@ -1,7 +1,5 @@
 import * as firebase from "firebase";
-import cardsModel from "./models/cards";
 import gameModel from "./models/game";
-import teamsModel from "./models/teams";
 
 let database;
 export const init = () => {
@@ -16,28 +14,31 @@ export const init = () => {
   database = firebase.database();
 };
 
-// export const getGames = () => {
-//     return database.ref('/games').once('value')
-// }
-
 export const addGame = (name, teams, timePerRound) => {
-  // let key = database.ref('/').push().key
-  // console.log('key', key)
   let model = gameModel(
     name,
     teams,
     timePerRound,
     firebase.database.ServerValue.TIMESTAMP
   );
-  // return database.ref('/'+ key).set(model)
   database
     .ref("/games")
     .child(name)
     .set(model);
 };
 
-export const getGame = gameName => {
-  return database.ref(`/games/${gameName}`).once("value");
+export const getGame = async gameName => {
+  return new Promise((resolve, reject) => {
+    database
+    .ref(`/games/${gameName}`)
+    .once("value")
+    .then(res => {
+      resolve(res.val());
+    })
+    .catch(error => {
+      reject(error);
+    })
+  });
 };
 
 export const getCards = () => {
@@ -50,9 +51,7 @@ export const addCards = (id, textArray) => {
       .ref(`/cards/${id}`)
       .once("value")
       .then(data => {
-        console.log("add", data.val());
-        let cards = data.val() || [];
-        // let key = database.ref(`/cards/${id}`).push().key;
+        const cards = data.val() || [];
         textArray.forEach(text => {
           cards.push({ text });
         });
@@ -75,14 +74,11 @@ export const changeTeamPosition = (gameName, teamName, fieldsNumber) => {
       .ref(`/games/${gameName}`)
       .once("value")
       .then(data => {
-        console.log("add", data.val());
-        let game = data.val() || [];
-        // let key = database.ref(`/cards/${id}`).push().key;
+        const game = data.val() || [];
         const teamIndex = game.teams.findIndex(team => team.name === teamName);
-        console.log("a", gameName, teamName, fieldsNumber, teamIndex, game);
         const updatedTeam = {
           ...game.teams[teamIndex],
-          position: game.teams[teamIndex].position + Number(fieldsNumber)
+          position: Math.min(game.teams[teamIndex].position + Number(fieldsNumber), 50)
         };
         const teams = [
           ...game.teams.slice(0, teamIndex),
@@ -93,7 +89,7 @@ export const changeTeamPosition = (gameName, teamName, fieldsNumber) => {
           .ref(`/games/${gameName}`)
           .set({ ...game, teams })
           .then(res => {
-            resolve(res);
+            resolve(updatedTeam);
           })
           .catch(error => {
             reject(error);

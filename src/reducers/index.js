@@ -1,6 +1,6 @@
 import cards from "./cards";
+import { combineReducers } from "redux";
 import game from "./game";
 import general from "./general";
-import { combineReducers } from "redux";
 
 export default combineReducers({ cards, game, general });

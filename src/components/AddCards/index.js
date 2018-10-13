@@ -26,7 +26,6 @@ class AddCards extends Component {
     this.setState(() => ({ text: "" }));
   };
   render() {
-    console.log("thisprop", this.props);
     const { selectedCategory, text } = this.state;
 
     return (

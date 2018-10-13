@@ -9,14 +9,23 @@
 }
 .menu-inner {
   position: relative;
+  height: 100%;
+  width: 100%;
 }
 .hamburger {
   position: absolute;
   right: 5px;
-  top: 5px;
+  top: 0;
+  bottom: 0;
+  align-items: center;
+  display: flex;
 }
 
 .menu-drawer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
   position: absolute;
   top: 50px;
   height: 300px;
@@ -31,4 +40,27 @@
 
 .menu-drawer.visible {
   opacity: 1;
+  border-top: 1px solid black;
+  border-radius: 0 0 15px 15px;
+}
+
+.menu-drawer div {
+  font-size: 26px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 2;
+}
+
+.menu-action {
+  display: flex;
+  padding: 5px 60px 5px 5px;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.next-team {
+  font-size: 26px;
+  font-weight: 700;
+  text-transform: uppercase;
 }

@@ -36,28 +36,24 @@ export default (state = initialState, action) => {
           changedArrayName = "hardDrawing";
           break;
         case "12":
+        default:
           changedArrayName = "hardPantomime";
           break;
       }
 
       const [first, ...rest] = state[changedArrayName];
       const modifiedCards = [...rest, first];
-      console.log("her");
       return {
         ...state,
         [changedArrayName]: modifiedCards,
-        activeCard: { text: first.text, value: getCardPoints() }
+        activeCard: { text: first.text, value: getCardPoints(), difficulty, activity }
       };
+    }
+    case "MOVE_TEAM_SUCCESS":
+    case "NEXT_TEAM": {
+      return { ...state, activeCard: {} };
     }
     default:
       return state;
   }
 };
-// activity meaning:
-// 0 - speaking
-// 1 -  drawing
-// 2 - showing
-
-// difficulty meaning:
-// 0 - easy
-// 1 - hard

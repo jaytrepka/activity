@@ -1,6 +1,25 @@
 {
-  "editor.formatOnSave": true,
-  "html.format.endWithNewline": true,
-  "html.format.indentHandlebars": true,
-  "html.format.indentInnerHtml": true
+  "window.zoomLevel": 1,
+  "editor.formatOnSave": false,
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "eslint.autoFixOnSave": true,
+  "prettier.eslintIntegration": true,
+  // "prettier.printWidth": 120,
+  // "eslint.validate": ["javascript", "javascriptreact", "vue"],
+  "window.openFilesInNewWindow": "off",
+  "explorer.confirmDelete": false,
+  "javascript.validate.enable": false,
+  // "[vue]": {
+  //     "editor.formatOnSave": true
+  // },
+  // "files.associations": {
+  //     "*.vue": "vue"
+  // },
+  // "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "emmet.includeLanguages": {
+    "latte": "html"
+  },
+  "git.ignoreMissingGitWarning": true,
+  "gitlens.advanced.git": "C:\\Users\\jtrepka\\Downloads\\cmder\\vendor\\git-for-windows\\bin\\git.exe"
 }

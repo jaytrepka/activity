@@ -11,12 +11,11 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText
 } from "reactstrap";
 
-const AVATARS = ["penguin", "hippo", "dogCute", "dogUgly", "monkey"];
+const AVATARS = ["capybara", "penguin", "hippo", "dogCute", "dogUgly", "monkey"];
 
-class App extends Component {
+class CreateGame extends Component {
   state = {
     gameName: "",
     numberOfTeams: 2,
@@ -66,13 +65,13 @@ class App extends Component {
               }
             >
               {[...Array(4).keys()].map(option => (
-                <option key={option}>{option + 2}</option>
+                <option key={option + '12'}>{option + 2}</option>
               ))}
             </Input>
           </FormGroup>
 
-          {[...Array(numberOfTeams).keys()].map((team, i) => (
-            <Row form key={i}>
+          {[...Array(numberOfTeams).keys()].map(team => (
+            <Row form key={team + '1'}>
               <Col md={6}>
                 <FormGroup>
                   <Label for="exampleEmail">Email</Label>
@@ -105,7 +104,7 @@ class App extends Component {
                     }}
                   >
                     {AVATARS.map(avatar => (
-                      <option>{avatar}</option>
+                      <option key={avatar}>{avatar}</option>
                     ))}
                   </Input>
                 </FormGroup>
@@ -139,4 +138,4 @@ const mapStateToProps = ({ game, general }) => {
 export default connect(
   mapStateToProps,
   { createGame, loadCards }
-)(App);
+)(CreateGame);

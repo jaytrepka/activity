@@ -26,23 +26,36 @@
   border-top: 4px solid black;
 }
 
-.background-0-0 .field {
+.field {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.6;
+}
+
+.background-0-0 {
   background-color: lightblue;
+  background-image: url('../../images/speak.png');
 }
-.background-0-1 .field {
+.background-0-1 {
   background-color: royalblue;
+  background-image: url('../../images/speak.png');
 }
-.background-1-0 .field {
+.background-1-0 {
   background-color: yellow;
+  background-image: url('../../images/draw.png');
 }
-.background-1-1 .field {
+.background-1-1 {
   background-color: green;
+  background-image: url('../../images/draw.png');
 }
-.background-2-0 .field {
+.background-2-0 {
   background-color: purple;
+  background-image: url('../../images/mime.png');
 }
-.background-2-1 .field {
+.background-2-1 {
   background-color: orange;
+  background-image: url('../../images/mime.png');
 }
 
 .field {
@@ -57,10 +70,66 @@
   position: absolute;
   width: 40px;
   height: 40px;
-  background-color: brown;
-  border-radius: 12px;
+  border-radius: 12px;   
+  left: calc(90% - 20px);
+  top: calc(5% - 20px);
+  transition: top 0.2s ease;
+  transition: all 0.2s ease;
 }
 .player.active {
   border: 1px solid black;
   z-index: 5;
+}
+.player.capybara {
+  background: aliceblue;
+}
+.player.penguin{
+  background: yellow;
+}
+.player.hippo{
+  background: darkblue;
+}
+.player.dogCute{
+  background: crimson;
+}
+.player.dogUgly{
+  background: deeppink;
+}
+.player.monkey{
+  background: chartreuse;
+}
+
+.card-wrapper{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border: 5px solid black;
+  border-radius: 5px;
+  padding: 10px;
+}
+.card-icon {
+  height: 150px;
+  width: 100%;
+  flex: initial;
+}
+.card-text {
+  font-size: 40px;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
+}
+.time-value-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+.card-value {
+  font-size: 36px;
+}
+.time {
+  font-weight: 700;
+  font-size: 46px;
 }

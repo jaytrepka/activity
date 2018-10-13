@@ -1,33 +1,36 @@
 import { addGame, changeTeamPosition, getGame } from "../javascripts/firebase";
 // import actionType from 'constants'
 
-export const loadGame = gameName => async ({ dispatch }) => {
-  // export const loadGame = (gameName) => async (dispatch) => {
-
-  // export const loadGame = (gameName) => {
-  //  return async dispatch => {
-  try {
-    dispatch({
-      type: "LOAD_GAME_START" // actionType.LOAD_SECTIONS_REQUEST
-    });
-    const game = await getGame(gameName);
-    console.log("gettingHovno", game.val());
-
-    return {
-      type: "LOAD_GAME_SUCCESS", //actionType.LOAD_SECTIONS_SUCCESS,
-      payload: game.val()
-    };
-  } catch (error) {
-    return {
-      type: "LOAD_GAME_ERROR", //actionType.LOAD_SECTIONS_FAILED,
-      payload: error
-    };
+export const loadGame = gameName => {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: "LOAD_GAME_START"
+      });
+      const game = await getGame(gameName);
+      if (!game) {
+        dispatch({
+          type: "LOAD_GAME_ERROR",
+          payload: 'Hra neexistuje'
+        });
+      } else {
+        dispatch({
+          type: "LOAD_GAME_SUCCESS",
+          payload: game
+        });
+      }
+    } catch (error) {
+      return {
+        type: "LOAD_GAME_ERROR",
+        payload: error
+      };
+    }
   }
 };
 
 const loadGameByName = async gameName => {
   const game = await getGame(gameName);
-  return game.val();
+  return game;
 };
 
 export const createGame = (gameName, teams, timePerRound) => {
@@ -52,17 +55,18 @@ export const createGame = (gameName, teams, timePerRound) => {
 };
 
 export const moveTeam = (gameName, teamName, fieldsNumber) => {
-  return async dispatch => {
+  return async (dispatch) => { 
     try {
       dispatch({
-        type: "MOVE_TEAM_START"
+        type: "MOVE_TEAM_START",
       });
-      await changeTeamPosition(gameName, teamName, fieldsNumber);
+      const team = await changeTeamPosition(gameName, teamName, fieldsNumber);
       dispatch({
         type: "MOVE_TEAM_SUCCESS",
         payload: {
           teamName,
-          fieldsNumber
+          fieldsNumber,
+          position: team.position,
         }
       });
     } catch (error) {
@@ -74,6 +78,12 @@ export const moveTeam = (gameName, teamName, fieldsNumber) => {
   };
 };
 
+export const nextTeam = () => ({
+  type: "NEXT_TEAM"
+});
+
+
 export const newGame = () => ({
   type: "NEW_GAME"
 });
+

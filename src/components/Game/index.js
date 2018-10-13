@@ -2,41 +2,66 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { createGame } from "../../actions/game";
-import { Col, Row, Container } from "reactstrap";
 import { computePlayerPosition, plan } from "./helpers";
 import Card from "./card";
-
+import isEqual from 'lodash/isEqual';
 import Capybara from "../../icons/Capybara";
 import DogUgly from "../../icons/DogUgly";
 import DogCute from "../../icons/DogCute";
+import Hippo from "../../icons/Hippo";
+import Monkey from "../../icons/Monkey";
+import Penguin from "../../icons/Penguin";
 
 import "./style.css";
 
 class App extends Component {
   state = {
-    teams: [
-      {
-        avatar: "penguin",
-        name: "vul",
-        position: 12
-      },
-      {
-        avatar: "hippo",
-        name: "kun",
-        position: 2
-      }
-    ]
+    positions: [],
+    positionStyles: [],
   };
 
-  //   state = {
-  //     gameName: '',
-  //     numberOfTeams: 2,
-  //     teams: [...Array(5).keys()].map(team => ({ name: `team${team + 1}`, avatar: AVATARS[team] })),
-  //     timePerRound: 60,
-  //   };
+  componentDidMount() {
+    const { game } = this.props;
+    const positionStyles = game.teams.map(team => 
+      computePlayerPosition(team.position)
+    );
+    const positions = game.teams.map(team => 
+      team.position
+    );
+    this.setState(() => ({ positions, positionStyles }))
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.game.teams, nextProps.game.teams)) {
+      this.changePosition(nextProps);
+    }
+  }
+
+  changePosition = (nextProps) => {
+    const { positions } = this.state;
+    nextProps.game.teams.forEach((team, i) => {
+      if (team.position !== positions[i]) {
+        setTimeout(() => this.moveOneField(i, team.position - positions[i]), 200);
+      }
+    }
+    );
+  }
+
+  moveOneField = (teamIndex, count) => {
+    if (count === 0) return;
+    const newPositionStyles = [...this.state.positionStyles];
+    const newPositions = [...this.state.positions];
+    const position = Math.min(this.state.positions[teamIndex] + 1, 50);
+    newPositionStyles[teamIndex] = computePlayerPosition(position)
+    newPositions[teamIndex] = position
+    this.setState(() => ({ positions: newPositions, positionStyles: newPositionStyles })); 
+    if (count === 1) return;   
+    setTimeout(() => this.moveOneField(teamIndex, count - 1), 200);
+  }
+
   render() {
-    console.log("thisprop", this.props);
-    const { activeCard, game, general } = this.props;
+    const { game, general } = this.props;
+    const { positionStyles } = this.state;
 
     if (general.cardTaken) {
       return <Card />;
@@ -45,14 +70,14 @@ class App extends Component {
     return (
       <div className="container">
         {[...Array(10).keys()].map(i => (
-          <div className="row">
+          <div className="row" key={i}>
             {[...Array(5).keys()].map(j => {
-              const classNames = `col background-${plan[i * 5 + j].activity}-${
+              const classNames = `field background-${plan[i * 5 + j].activity}-${
                 plan[i * 5 + j].difficulty
               }`;
               return (
-                <div className={classNames}>
-                  <div className="field" />
+                <div className="col" key={i + j}>
+                  <div className={classNames} />
                 </div>
               );
             })}
@@ -62,13 +87,16 @@ class App extends Component {
           game.teams.map((team, i) => {
             return (
               <div
-                className={`player ${i === game.playingTeam ? "active" : ""}`}
+                className={`player ${team.avatar} ${i === game.playingTeam ? "active" : ""}`}
                 key={i}
-                style={computePlayerPosition(team.position)}
+                style={positionStyles[i]}
               >
-                {i === 0 && <Capybara width="35" height="35" />}
-                {i === 1 && <DogCute width="35" height="35" />}
-                {i === 2 && <DogUgly width="35" height="35" />}
+                {team.avatar === 'capybara' && <Capybara width="35" height="35" />}
+                {team.avatar === 'penguin' && <Penguin width="35" height="35" />}
+                {team.avatar === 'hippo' && <Hippo width="35" height="35" />}
+                {team.avatar === 'dogCute' && <DogCute width="35" height="35" />}
+                {team.avatar === 'dogUgly' && <DogUgly width="35" height="35" />}
+                {team.avatar === 'monkey' && <Monkey width="35" height="35" />}
               </div>
             );
           })}
@@ -76,9 +104,8 @@ class App extends Component {
     );
   }
 }
-const mapStateToProps = ({ cards: { activeCard }, game, general }) => {
+const mapStateToProps = ({ game, general }) => {
   return {
-    activeCard,
     game,
     general
   };

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-// import SectionList from './section-list'
-import { connect } from "react-redux";
-import { toggleMenu } from "../../actions/general";
-import { takeCard } from "../../actions/cards";
+import { loadGameScreen, toggleMenu } from "../../actions/general";
 import { Button } from "reactstrap";
+import { connect } from "react-redux";
+import MenuIcon from "../../icons/Menu";
+import { newGame } from '../../actions/game'
 import { plan } from "../Game/helpers";
+import { takeCard } from "../../actions/cards";
 
 import "./style.css";
 
@@ -18,6 +19,8 @@ class Menu extends Component {
     const {
       game,
       general: { cardTaken, menuOpened, screen },
+      loadGameScreen,
+      newGame,
       toggleMenu
     } = this.props;
 
@@ -27,19 +30,20 @@ class Menu extends Component {
           <div className="menu-inner">
             {screen === "play" &&
               !menuOpened &&
-              !cardTaken && (
-                <div>
-                  Next team: {game.teams[game.playingTeam].name}
-                  <Button onClick={() => this.takeCard()}>Take card</Button>
+                (<div className="menu-action">
+                  <span className="next-team">{game.teams[game.playingTeam].name}</span>
+                  
+              {!cardTaken && (<Button onClick={() => this.takeCard()}>Take card</Button>)}
                 </div>
               )}
             <div className="hamburger" onClick={() => toggleMenu()}>
-              BUT
+              <MenuIcon width="35" height="35" />
             </div>
           </div>
         </div>
         <div className={`menu-drawer ${menuOpened ? "visible" : ""}`}>
-          VOLE SVINE
+          <div onClick={() => newGame()}>New Game</div>
+          <div onClick={() => loadGameScreen()}>Load Game</div>
         </div>
       </div>
     );
@@ -51,7 +55,4 @@ const mapStateToProps = ({ game, general }) => {
     general
   };
 };
-export default connect(
-  mapStateToProps,
-  { takeCard, toggleMenu }
-)(Menu);
+export default connect(mapStateToProps, { loadGameScreen, newGame, takeCard, toggleMenu })(Menu);

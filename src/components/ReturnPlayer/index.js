@@ -1,34 +1,23 @@
 import React, { Component } from "react";
-
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { connect } from "react-redux";
 import { moveTeam } from "../../actions/game";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-
-//moveTeam = (gameName, team, fields)
 class ReturnPlayer extends Component {
   state = {
     selectedTeam: 0,
-    fieldsNumber: ""
+    fieldsNumber: "",
   };
 
   onSubmit = e => {
     e.preventDefault();
     const { selectedTeam, fieldsNumber } = this.state;
     const { game, moveTeam } = this.props;
-    console.log("sub", game, this.state);
     moveTeam(game.name, game.teams[selectedTeam].name, fieldsNumber);
     this.setState(() => ({ selectedTeam: 0, fieldsNumber: "" }));
   };
   render() {
-    console.log("thisprop", this.props);
     const { selectedTeam, fieldsNumber } = this.state;
     const { game } = this.props;
-    console.log(
-      "thispsrop",
-      this.state,
-      this.props,
-      game.teams && game.teams[selectedTeam].name
-    );
 
     return (
       <div className="container">
@@ -72,10 +61,9 @@ class ReturnPlayer extends Component {
     );
   }
 }
-const mapStateToProps = ({ game, general }) => {
+const mapStateToProps = ({ game }) => {
   return {
-    game,
-    general
+    game
   };
 };
 export default connect(

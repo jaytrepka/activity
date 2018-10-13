@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-// import SectionList from './section-list'
-import { connect } from 'react-redux'
-import { newGame } from '../../actions/game'
-import { Col, Row, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import CreateGame from '../CreateGame'
-import Game from '../Game'
-import Menu from '../Menu'
-import './style.css'
+import { connect } from 'react-redux';
+import CreateGame from '../CreateGame';
+import Error from '../Error';
+import Game from '../Game';
+import LoadGame from '../LoadGame';
+import Menu from '../Menu';
+import Results from '../Results';
 
-const AVATARS = ['penguin', 'hippo', 'dogCute', 'dogUgly', 'monkey'];
+import './style.css';
+
 
 class App extends Component {
   getContent = () => {
-    const { general: { screen, isLoading, isError }, newGame } = this.props;
+    const { general: { screen, isLoading } } = this.props;
 
     if (isLoading) {
       return <div>Loader pico</div>;
@@ -22,14 +22,12 @@ class App extends Component {
         case 'home':
         default: 
           return <CreateGame />;
-        // case 'load': <LoadGame />;
-        //   content = 
-        //   return;
+        case 'load': 
+          return <LoadGame />;
         case 'play':
           return <Game />;
-        // case 'results':
-        //   content = <Results />;
-        //   return;
+        case 'results':
+          return <Results />;
         // case 'home':
         // default: 
         //   content = <Home />;
@@ -40,13 +38,11 @@ class App extends Component {
   render() {
     return (
       <div className="wrapper">
-        <Menu />
-        {/* <div>Created</div>
-        <div onClick={() => newGame()}>New Game</div> */}
-        
+        <Menu />        
         <div className="screen">
           {this.getContent()}
         </div>
+        <Error />
       </div>
     );
   }
@@ -57,4 +53,4 @@ const mapStateToProps = ({ general }) => {
     general
   }
 }
-export default connect(mapStateToProps, { newGame })(App)
+export default connect(mapStateToProps)(App)
