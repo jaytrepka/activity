@@ -14,7 +14,6 @@ import './style.css';
 class App extends Component {
   getContent = () => {
     const { general: { screen, isLoading } } = this.props;
-    console.log('vole', this.props);
     
 
     if (isLoading || screen === 'init') {
@@ -31,10 +30,6 @@ class App extends Component {
           return <Game />;
         case 'results':
           return <Results />;
-        // case 'home':
-        // default: 
-        //   content = <Home />;
-        //   return;
       }
     }
   }

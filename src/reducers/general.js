@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
       return { ...state, isLoading: false, isError: true, error: action.payload };
     }
     case "NEW_GAME": {
-      return initialState;
+      return {...initialState, screen: 'home' };
     }
     case "TOGGLE_MENU": {
       return { ...state, menuOpened: !state.menuOpened };
