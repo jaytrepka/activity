@@ -4,6 +4,7 @@ import CreateGame from '../CreateGame';
 import Error from '../Error';
 import Game from '../Game';
 import LoadGame from '../LoadGame';
+import Loader from '../Loader';
 import Menu from '../Menu';
 import Results from '../Results';
 
@@ -13,9 +14,11 @@ import './style.css';
 class App extends Component {
   getContent = () => {
     const { general: { screen, isLoading } } = this.props;
+    console.log('vole', this.props);
+    
 
-    if (isLoading) {
-      return <div>Loader pico</div>;
+    if (isLoading || screen === 'init') {
+      return <Loader />;
     } else {
       switch(screen) {
         case 'create':

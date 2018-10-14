@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import Alert from "../../icons/Alert";
+import { clearError } from '../../actions/general'
 import { connect } from "react-redux";
-import MenuIcon from "../../icons/Menu";
 
 import "./style.css";
 
@@ -12,10 +13,11 @@ class ErrorComponent extends Component {
     } = this.props;
 
     return (
-      <div className="error-wrapper">
+      <div className="error-wrapper" onClick={() => this.props.clearError()}>
         {isError && <div className="error">
-        <MenuIcon />
-        <span>{error || 'Something went wrong'}</span>
+        <Alert />
+        <span className="error-message">{error || 'Something went wrong'}</span>
+        <div>OK</div>
         </div>}
       </div>
     );
@@ -27,4 +29,4 @@ const mapStateToProps = ({ general: { error, isError } }) => {
     isError,
   };
 };
-export default connect(mapStateToProps)(ErrorComponent);
+export default connect(mapStateToProps, { clearError })(ErrorComponent);

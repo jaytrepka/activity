@@ -26,9 +26,8 @@
   align-items: center;
   flex-direction: column;
   padding: 20px;
-  position: absolute;
+  position: fixed;
   top: 50px;
-  height: 300px;
   width: 100%;
   background: #e0b016;
   visibility: hidden;

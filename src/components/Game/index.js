@@ -5,16 +5,11 @@ import { createGame } from "../../actions/game";
 import { computePlayerPosition, plan } from "./helpers";
 import Card from "./card";
 import isEqual from 'lodash/isEqual';
-import Capybara from "../../icons/Capybara";
-import DogUgly from "../../icons/DogUgly";
-import DogCute from "../../icons/DogCute";
-import Hippo from "../../icons/Hippo";
-import Monkey from "../../icons/Monkey";
-import Penguin from "../../icons/Penguin";
+import Avatar from "../Avatar";
 
 import "./style.css";
 
-class App extends Component {
+class Game extends Component {
   state = {
     positions: [],
     positionStyles: [],
@@ -91,12 +86,7 @@ class App extends Component {
                 key={i}
                 style={positionStyles[i]}
               >
-                {team.avatar === 'capybara' && <Capybara width="35" height="35" />}
-                {team.avatar === 'penguin' && <Penguin width="35" height="35" />}
-                {team.avatar === 'hippo' && <Hippo width="35" height="35" />}
-                {team.avatar === 'dogCute' && <DogCute width="35" height="35" />}
-                {team.avatar === 'dogUgly' && <DogUgly width="35" height="35" />}
-                {team.avatar === 'monkey' && <Monkey width="35" height="35" />}
+                <Avatar avatar={team.avatar} width="35" height="35" />
               </div>
             );
           })}
@@ -113,4 +103,4 @@ const mapStateToProps = ({ game, general }) => {
 export default connect(
   mapStateToProps,
   { createGame }
-)(App);
+)(Game);

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-// import SectionList from './section-list'
 import { connect } from "react-redux";
 import { loadGame } from "../../actions/game";
-import { loadCards } from "../../actions/cards";
 import {
   Button,
   Form,
@@ -20,7 +18,6 @@ class LoadGame extends Component {
     e.preventDefault();
     const { gameName } = this.state;
     this.props.loadGame(gameName);
-    this.props.loadCards();
   };
 
   render() {
@@ -39,13 +36,11 @@ class LoadGame extends Component {
               onChange={e => this.setState({ gameName: e.target.value })}
             />
           </FormGroup>
-
-
-          <Button type="submit">Submit</Button>
+          <Button type="submit" color="primary" size="lg" block>Load game</Button>
         </Form>
       </div>
     );
   }
 }
 
-export default connect(null, { loadCards, loadGame })(LoadGame);
+export default connect(null, { loadGame })(LoadGame);

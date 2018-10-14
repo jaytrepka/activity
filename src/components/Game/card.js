@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { moveTeam, nextTeam } from "../../actions/game";
-import {
-  Button,
-} from "reactstrap";
+import { Button } from "reactstrap";
+import { connect } from "react-redux";
 
 import "./style.css";
 
@@ -29,9 +27,14 @@ class Card extends Component {
   }
 
   correct = () => {
-    const { activeCard, game: { name, playingTeam, teams }, moveTeam } = this.props;
+    const { game: { activeCard, name, playingTeam, teams }, moveTeam } = this.props;
+    const { guessed } = this.state;
     clearInterval(this.interval);
-    moveTeam(name, teams[playingTeam].name, activeCard.value)
+    
+    if (!guessed) {
+      moveTeam(name, teams[playingTeam].name, activeCard.value);
+    }
+    this.setState(() => ({ guessed: true }));
   }
 
   componentWillUnmount(){
@@ -39,7 +42,7 @@ class Card extends Component {
   }
 
   render() {
-    const { activeCard, nextTeam } = this.props;
+    const { game: { activeCard }, nextTeam } = this.props;
     const { remainingTime, started } = this.state;
     const classNames = `card-icon field background-${activeCard.difficulty}-${activeCard.activity}`;
   
@@ -58,9 +61,8 @@ class Card extends Component {
     );
   }
 }
-const mapStateToProps = ({ cards: { activeCard }, game, general }) => {
+const mapStateToProps = ({ game, general }) => {
   return {
-    activeCard,
     game,
     general
   };

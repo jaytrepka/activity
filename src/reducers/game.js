@@ -1,3 +1,5 @@
+import { getCardPoints, getChangedCardsName } from "./helpers";
+
 let initialState = {};
 
 export default (state = initialState, action) => {
@@ -18,10 +20,26 @@ export default (state = initialState, action) => {
         updatedTeam,
         ...state.teams.slice(teamIndex + 1)
       ];
-      return { ...state, teams, playingTeam: (state.playingTeam + 1) % state.teams.length };
+      return { ...state, teams, playingTeam: (state.playingTeam + 1) % state.teams.length, activeCard: {} };
     }
     case "NEXT_TEAM": {
-      return { ...state, playingTeam: (state.playingTeam + 1) % state.teams.length };
+      return { ...state, playingTeam: (state.playingTeam + 1) % state.teams.length, activeCard: {} };
+    }
+    case "TAKE_CARD": {
+      const { activity, difficulty } = action.payload;
+
+      const changedArrayName = getChangedCardsName(difficulty, activity);
+
+      const [first, ...rest] = state.cards[changedArrayName];
+      const modifiedCards = [...rest, first];
+      return {
+        ...state,
+        cards: {
+          ...state.cards,
+          [changedArrayName]: modifiedCards,
+        },
+        activeCard: { text: first.text, value: getCardPoints(), difficulty, activity }
+      };
     }
     case "NEW_GAME": {
       return initialState;

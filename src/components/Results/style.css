@@ -1,0 +1,15 @@
+.result-line {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  padding: 20px 0;
+}
+.avatar {
+  margin: 0 10px;
+}
+.avatar svg {
+  min-width: 45px;
+}
+.team-name {
+  font-size: 26px;
+}

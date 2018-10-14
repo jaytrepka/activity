@@ -2,7 +2,6 @@ import React, { Component } from "react";
 // import SectionList from './section-list'
 import { connect } from "react-redux";
 import { createGame } from "../../actions/game";
-import { loadCards } from "../../actions/cards";
 import {
   Col,
   Row,
@@ -35,7 +34,6 @@ class CreateGame extends Component {
       teams.slice(0, numberOfTeams),
       timePerRound
     );
-    this.props.loadCards();
   };
   render() {
     const { gameName, numberOfTeams, teams, timePerRound } = this.state;
@@ -54,31 +52,31 @@ class CreateGame extends Component {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="exampleSelect">Select number of teams</Label>
+            <Label for="teamsNumber">Select number of teams</Label>
             <Input
               type="select"
               name="select"
-              id="exampleSelect"
+              id="teamsNumber"
               value={numberOfTeams}
               onChange={e =>
                 this.setState({ numberOfTeams: Number(e.target.value) })
               }
             >
               {[...Array(4).keys()].map(option => (
-                <option key={option + '12'}>{option + 2}</option>
+                <option key={option}>{option + 2}</option>
               ))}
             </Input>
           </FormGroup>
 
           {[...Array(numberOfTeams).keys()].map(team => (
-            <Row form key={team + '1'}>
+            <Row form key={team}>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="exampleEmail">Email</Label>
+                  <Label for="teamName">Team name</Label>
                   <Input
                     type="text"
                     name="text"
-                    id="exampleEmail"
+                    id="teamName"
                     placeholder="Team name"
                     value={teams[team].name}
                     onChange={e => {
@@ -91,11 +89,11 @@ class CreateGame extends Component {
               </Col>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="exampleSelect">Select avatar</Label>
+                  <Label for="avatar">Select avatar</Label>
                   <Input
                     type="select"
                     name="select"
-                    id="exampleSelect"
+                    id="avatar"
                     value={teams[team].avatar}
                     onChange={e => {
                       let modifiedTeams = [...teams];
@@ -123,7 +121,7 @@ class CreateGame extends Component {
             />
           </FormGroup>
 
-          <Button type="submit">Submit</Button>
+          <Button type="submit" color="primary" size="lg" block>Create game</Button>
         </Form>
       </div>
     );
@@ -137,5 +135,5 @@ const mapStateToProps = ({ game, general }) => {
 };
 export default connect(
   mapStateToProps,
-  { createGame, loadCards }
+  { createGame }
 )(CreateGame);

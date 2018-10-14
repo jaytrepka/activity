@@ -14,17 +14,32 @@ export const init = () => {
   database = firebase.database();
 };
 
-export const addGame = (name, teams, timePerRound) => {
+export const addGame = (name, teams, cards, timePerRound) => {
   let model = gameModel(
     name,
     teams,
     timePerRound,
+    cards,
     firebase.database.ServerValue.TIMESTAMP
   );
-  database
-    .ref("/games")
-    .child(name)
-    .set(model);
+  return new Promise((resolve, reject) => {
+    database
+    .ref(`/games`)
+    .once("value")
+    .then(res => {      
+      if (res.hasChild(name)) {
+        throw new Error('Game with this name already exists');
+      }
+      database
+      .ref("/games")
+      .child(name)
+      .set(model);
+      resolve();
+    })
+    .catch(error => {
+      reject(error);
+    })
+  });
 };
 
 export const getGame = async gameName => {

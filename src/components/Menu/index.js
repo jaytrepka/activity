@@ -3,9 +3,8 @@ import { loadGameScreen, toggleMenu } from "../../actions/general";
 import { Button } from "reactstrap";
 import { connect } from "react-redux";
 import MenuIcon from "../../icons/Menu";
-import { newGame } from '../../actions/game'
+import { newGame, takeCard } from '../../actions/game'
 import { plan } from "../Game/helpers";
-import { takeCard } from "../../actions/cards";
 
 import "./style.css";
 
@@ -32,8 +31,17 @@ class Menu extends Component {
               !menuOpened &&
                 (<div className="menu-action">
                   <span className="next-team">{game.teams[game.playingTeam].name}</span>
-                  
-              {!cardTaken && (<Button onClick={() => this.takeCard()}>Take card</Button>)}
+                  {!cardTaken && (<Button onClick={() => this.takeCard()}>Take card</Button>)}
+                </div>
+              )}
+              {screen === "results" &&
+                (<div className="menu-action">
+                  <span className="next-team">{game.name}</span>
+                </div>
+              )}
+              {screen !== "results" && screen !== "play" &&
+                (<div className="menu-action">
+                  <span className="next-team">ACTIVITY</span>
                 </div>
               )}
             <div className="hamburger" onClick={() => toggleMenu()}>

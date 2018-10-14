@@ -8,10 +8,16 @@
 .error {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 10px;
   font-size: 20px;
   font-weight: 700;
   color: white;
   background: red;
+}
+.error svg {
+  min-width: 25px;
+}
+.error-message {
+  padding: 0 10px;
 }
