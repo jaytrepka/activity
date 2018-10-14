@@ -2,6 +2,7 @@ import { Router, Route } from "react-router";
 import App from "./App";
 import About from "./App/about";
 import AddCards from "./AddCards";
+import Loader from "./Loader";
 import ReturnPlayer from "./ReturnPlayer";
 import React from "react";
 
@@ -11,5 +12,6 @@ export default props => (
     <Route path="/about" component={About} />
     <Route path="/add-cards" component={AddCards} />
     <Route path="/return-player" component={ReturnPlayer} />
+    <Route path="/loader" component={Loader} />
   </Router>
 );

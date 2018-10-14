@@ -16,6 +16,7 @@ const AVATARS = ["capybara", "penguin", "hippo", "dogCute", "dogUgly", "monkey"]
 
 class CreateGame extends Component {
   state = {
+    cardSet: 'default',
     gameName: "",
     numberOfTeams: 2,
     teams: [...Array(5).keys()].map(team => ({
@@ -28,15 +29,16 @@ class CreateGame extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const { gameName, numberOfTeams, teams, timePerRound } = this.state;
+    const { cardSet, gameName, numberOfTeams, teams, timePerRound } = this.state;
     this.props.createGame(
       gameName,
       teams.slice(0, numberOfTeams),
-      timePerRound
+      timePerRound,
+      cardSet,
     );
   };
   render() {
-    const { gameName, numberOfTeams, teams, timePerRound } = this.state;
+    const { cardSet, gameName, numberOfTeams, teams, timePerRound } = this.state;
     return (
       <div style={{ padding: "10px" }}>
         <Form onSubmit={this.onSubmit}>
@@ -118,6 +120,18 @@ class CreateGame extends Component {
               placeholder="Enter time per round"
               value={timePerRound}
               onChange={e => this.setState({ timePerRound: e.target.value })}
+            />
+          </FormGroup>
+          
+          <FormGroup>
+            <Label for="cardSet">Card set</Label>
+            <Input
+              type="text"
+              name="cardSet"
+              id="cardSet"
+              placeholder="Enter card set name"
+              value={cardSet}
+              onChange={e => this.setState({ cardSet: e.target.value })}
             />
           </FormGroup>
 

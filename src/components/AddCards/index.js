@@ -14,52 +14,64 @@ const CATEGORIES = [
 
 class AddCards extends Component {
   state = {
+    cardSetName: 'default',
     selectedCategory: CATEGORIES[0],
     text: ""
   };
 
   onSubmit = e => {
     e.preventDefault();
-    const { selectedCategory, text } = this.state;
+    const { cardSetName, selectedCategory, text } = this.state;
 
-    addCards(selectedCategory, text.split(","));
+    addCards(cardSetName, selectedCategory, text.split(","));
     this.setState(() => ({ text: "" }));
   };
   render() {
-    const { selectedCategory, text } = this.state;
+    const { cardSetName, selectedCategory, text } = this.state;
 
     return (
       <div className="container">
         <div>
           <Form onSubmit={this.onSubmit}>
             <FormGroup>
-              <Label for="exampleSelect">Select avatar</Label>
+              <Label for="cardSet">Enter name of card set</Label>
+              <Input
+                type="text"
+                name="cardSet"
+                id="cardSet"
+                placeholder="default"
+                value={cardSetName}
+                onChange={e => this.setState({ cardSetName: e.target.value })}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="category">Select category</Label>
               <Input
                 type="select"
                 name="select"
-                id="exampleSelect"
+                id="category"
                 value={selectedCategory}
                 onChange={e =>
                   this.setState({ selectedCategory: e.target.value })
                 }
               >
                 {CATEGORIES.map(category => (
-                  <option>{category}</option>
+                  <option key={category}>{category}</option>
                 ))}
               </Input>
             </FormGroup>
             <FormGroup>
-              <Label for="timePerRound">Time per round</Label>
+              <Label for="cards">Enter cards splitted by ,</Label>
               <Input
                 type="text"
-                name="timePerRound"
-                id="timePerRound"
+                name="cards"
+                id="cards"
                 placeholder="Enter time per round"
                 value={text}
                 onChange={e => this.setState({ text: e.target.value })}
               />
             </FormGroup>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" color="primary" size="lg" block>Submit</Button>
           </Form>
         </div>
       </div>

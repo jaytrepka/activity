@@ -33,8 +33,8 @@ const loadGameByName = async gameName => {
   return game;
 };
 
-const loadCards = async () => {
-  const cards = await getCards();
+const loadCards = async (cardSet) => {
+  const cards = await getCards(cardSet);
   let shuffledCards = cards.val();
   for (const [key, value] of Object.entries(shuffledCards)) {
     shuffledCards[key] = shuffle(value);
@@ -42,13 +42,13 @@ const loadCards = async () => {
   return shuffledCards;
 };
 
-export const createGame = (gameName, teams, timePerRound) => {
+export const createGame = (gameName, teams, timePerRound, cardSet) => {
   return async dispatch => {
     try {
       dispatch({
         type: "CREATE_GAME_START"
       });
-      const cards = await loadCards()
+      const cards = await loadCards(cardSet)
       await addGame(gameName, teams, cards, timePerRound);
       const game = await loadGameByName(gameName); //refresh the data to keep up-to-date
       dispatch({

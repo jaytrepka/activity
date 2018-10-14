@@ -54,9 +54,9 @@ class Card extends Component {
           <div className="card-value">{activeCard.value} points</div>
           <div className="time">{remainingTime} s</div>
         </div>
-        {!started && <Button color="danger" size="lg" onClick={() => this.startRound()}>Start</Button>}
-        {started && remainingTime > 0 && <Button color="success" size="lg" onClick={() => this.correct()}>Correct</Button>}
-        {started && remainingTime < 1 && <Button color="secondary" size="lg" onClick={() => nextTeam()}>Destroy card</Button>}
+        {!started && <Button color="danger" size="lg" block onClick={() => this.startRound()}>Start</Button>}
+        {started && remainingTime > 0 && <Button color="success" size="lg" block onClick={() => this.correct()}>Correct</Button>}
+        {started && remainingTime < 1 && <Button color="secondary" size="lg" block onClick={() => nextTeam()}>Destroy card</Button>}
       </div>
     );
   }

@@ -56,14 +56,16 @@ export const getGame = async gameName => {
   });
 };
 
-export const getCards = () => {
-  return database.ref(`/cards`).once("value");
+export const getCards = (cardSet) => {
+  console.log('here', cardSet);
+  
+  return database.ref(`/cards/${cardSet || 'default'}`).once("value");
 };
 
-export const addCards = (id, textArray) => {
+export const addCards = (cardSetName, id, textArray) => {
   return new Promise((resolve, reject) => {
     database
-      .ref(`/cards/${id}`)
+      .ref(`/cards/${cardSetName}/${id}`)
       .once("value")
       .then(data => {
         const cards = data.val() || [];
@@ -71,7 +73,7 @@ export const addCards = (id, textArray) => {
           cards.push({ text });
         });
         database
-          .ref(`/cards/${id}`)
+          .ref(`/cards/${cardSetName}/${id}`)
           .set(cards)
           .then(res => {
             resolve(res);
