@@ -69,8 +69,8 @@ export const addCards = (cardSetName, id, textArray) => {
       .once("value")
       .then(data => {
         const cards = data.val() || [];
-        textArray.forEach(text => {
-          cards.push({ text });
+        textArray.forEach(card => {
+          cards.push(card);
         });
         database
           .ref(`/cards/${cardSetName}/${id}`)

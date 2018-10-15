@@ -22,8 +22,13 @@ class AddCards extends Component {
   onSubmit = e => {
     e.preventDefault();
     const { cardSetName, selectedCategory, text } = this.state;
+    const splittedCards = text.split(",");
+    const valueCards = splittedCards.map(card => ({
+      text: card.substr(0, card.length - 3),
+      value: card.substr(card.length - 2, 1),
+    }))
 
-    addCards(cardSetName, selectedCategory, text.split(","));
+    addCards(cardSetName, selectedCategory, valueCards);
     this.setState(() => ({ text: "" }));
   };
   render() {

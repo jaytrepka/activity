@@ -1,4 +1,4 @@
-import { getCardPoints, getChangedCardsName } from "./helpers";
+import { getChangedCardsName } from "./helpers";
 
 let initialState = {};
 
@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
           ...state.cards,
           [changedArrayName]: modifiedCards,
         },
-        activeCard: { text: first.text, value: getCardPoints(), difficulty, activity }
+        activeCard: { text: first.text, value: first.value, difficulty, activity }
       };
     }
     case "NEW_GAME": {
