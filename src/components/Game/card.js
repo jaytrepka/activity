@@ -2,8 +2,11 @@ import React, { Component } from "react";
 import { moveTeam, nextTeam } from "../../actions/game";
 import { Button } from "reactstrap";
 import { connect } from "react-redux";
+import Draw from '../Draw'
 
 import "./style.css";
+
+const PADDING = 30;
 
 class Card extends Component {
   state = {
@@ -13,6 +16,16 @@ class Card extends Component {
   };
 
   interval;
+  drawingArea;
+
+  componentDidMount() {
+    const element = document.getElementById("card-wrapper");
+    const button = document.getElementById("button");
+    this.drawingArea = {
+      width: `${element.offsetWidth - PADDING}px`,
+      height: `${element.offsetHeight - button.offsetHeight - PADDING - 10}px`,
+    };
+  }
 
   startRound = () => {
     this.setState(() =>({ started: true }))
@@ -42,20 +55,29 @@ class Card extends Component {
   }
 
   render() {
-    const { game: { activeCard }, nextTeam } = this.props;
+    const { game: { activeCard, drawing }, nextTeam } = this.props;
     const { remainingTime, started } = this.state;
-    const classNames = `card-icon field background-${activeCard.difficulty}-${activeCard.activity}`;
+    const classNames = `card-icon field background-${activeCard.activity}-${activeCard.difficulty}`;
   
     return (
-      <div className="card-wrapper">
-        <div className={classNames}></div>
-        <div className="card-text">{activeCard.text}</div>
-        <div className="time-value-wrapper">
-          <div className="card-value">{activeCard.value} points</div>
-          <div className="time">{remainingTime} s</div>
-        </div>
-        {!started && <Button color="danger" size="lg" block onClick={() => this.startRound()}>Start</Button>}
-        {started && remainingTime > 0 && <Button color="success" size="lg" block onClick={() => this.correct()}>Correct</Button>}
+      <div className="card-wrapper" id="card-wrapper">
+        {activeCard.activity === 1 && drawing && started && 
+          <Draw width={this.drawingArea.width} height={this.drawingArea.height} />
+        }
+        {(activeCard.activity !== 1 || !drawing || !started) && <div>
+          <div className={classNames}></div>
+          <div className="card-text">{activeCard.text}</div>
+          <div className="time-value-wrapper">
+            <div className="card-value">{activeCard.value} points</div>
+            <div className="time">{remainingTime} s</div>
+          </div>
+        </div>}
+        {!started && <Button color="danger" size="lg" block onClick={() => this.startRound()} id="button">Start</Button>}
+        {started && remainingTime > 0 &&
+          <Button color="success" size="lg" block onClick={() => this.correct()}>
+            {activeCard.activity === 1 && drawing ? `${remainingTime}s - Correct` : 'Correct'}
+          </Button>
+        }
         {started && remainingTime < 1 && <Button color="secondary" size="lg" block onClick={() => nextTeam()}>Destroy card</Button>}
       </div>
     );

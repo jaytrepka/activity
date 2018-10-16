@@ -12,7 +12,7 @@ class Menu extends Component {
   takeCard = () => {
     const { game, takeCard } = this.props;
     const card = plan[game.teams[game.playingTeam].position];
-    takeCard(card.difficulty, card.activity);
+    takeCard(card.activity, card.difficulty);
   };
   render() {
     const {

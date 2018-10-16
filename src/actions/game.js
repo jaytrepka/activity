@@ -42,14 +42,14 @@ const loadCards = async (cardSet) => {
   return shuffledCards;
 };
 
-export const createGame = (gameName, teams, timePerRound, cardSet) => {
+export const createGame = (gameName, teams, timePerRound, cardSet, drawing) => {
   return async dispatch => {
     try {
       dispatch({
         type: "CREATE_GAME_START"
       });
       const cards = await loadCards(cardSet)
-      await addGame(gameName, teams, cards, timePerRound);
+      await addGame(gameName, teams, cards, timePerRound, drawing);
       const game = await loadGameByName(gameName); //refresh the data to keep up-to-date
       dispatch({
         type: "CREATE_GAME_SUCCESS",

@@ -17,6 +17,7 @@ const AVATARS = ["capybara", "penguin", "hippo", "dogCute", "dogUgly", "monkey"]
 class CreateGame extends Component {
   state = {
     cardSet: 'default',
+    drawing: true,
     gameName: "",
     numberOfTeams: 2,
     teams: [...Array(5).keys()].map(team => ({
@@ -29,16 +30,17 @@ class CreateGame extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const { cardSet, gameName, numberOfTeams, teams, timePerRound } = this.state;
+    const { cardSet, drawing, gameName, numberOfTeams, teams, timePerRound } = this.state;
     this.props.createGame(
       gameName,
       teams.slice(0, numberOfTeams),
       timePerRound,
       cardSet,
+      drawing,
     );
   };
   render() {
-    const { cardSet, gameName, numberOfTeams, teams, timePerRound } = this.state;
+    const { cardSet, drawing, gameName, numberOfTeams, teams, timePerRound } = this.state;
     return (
       <div style={{ padding: "10px" }}>
         <Form onSubmit={this.onSubmit}>
@@ -123,6 +125,14 @@ class CreateGame extends Component {
             />
           </FormGroup>
           
+          <FormGroup check>
+          <Label check>
+            <Input type="checkbox" onChange={e => this.setState(prevState => ({ drawing: !prevState.drawing }))}
+              checked={drawing}
+            />Use device for drawing
+          </Label>
+        </FormGroup>
+
           <FormGroup>
             <Label for="cardSet">Card set</Label>
             <Input

@@ -14,12 +14,13 @@ export const init = () => {
   database = firebase.database();
 };
 
-export const addGame = (name, teams, cards, timePerRound) => {
+export const addGame = (name, teams, cards, timePerRound, drawing) => {
   let model = gameModel(
     name,
     teams,
     timePerRound,
     cards,
+    drawing,
     firebase.database.ServerValue.TIMESTAMP
   );
   return new Promise((resolve, reject) => {
