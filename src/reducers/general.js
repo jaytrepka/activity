@@ -53,7 +53,7 @@ export default (state = initialState, action) => {
       return { ...state, isError: false, error: '' };
     }
     case 'persist/REHYDRATE': {
-      if (action.payload.general.screen === 'init') {
+      if (!action.payload.general || action.payload.general.screen === 'init') {
         return { ...state, ...action.payload.general, screen: 'home' };
       }
       return { ...state, ...action.payload.general };

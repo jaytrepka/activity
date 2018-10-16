@@ -1,0 +1,18 @@
+.draw-wrapper {
+  position: relative;
+  border: 1px solid black;
+  background: floralwhite;
+}
+
+.eraser {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  padding: 10px;
+  border: 1px solid red;
+  background: rebeccapurple;
+  border-radius: 25px;
+}
+.eraser:hover {
+  cursor: pointer;
+}

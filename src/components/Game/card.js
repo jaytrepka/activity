@@ -64,14 +64,15 @@ class Card extends Component {
         {activeCard.activity === 1 && drawing && started && 
           <Draw width={this.drawingArea.width} height={this.drawingArea.height} />
         }
-        {(activeCard.activity !== 1 || !drawing || !started) && <div>
+        {(activeCard.activity !== 1 || !drawing || !started) &&
+          <React.Fragment>
           <div className={classNames}></div>
           <div className="card-text">{activeCard.text}</div>
           <div className="time-value-wrapper">
             <div className="card-value">{activeCard.value} points</div>
             <div className="time">{remainingTime} s</div>
           </div>
-        </div>}
+          </React.Fragment>}
         {!started && <Button color="danger" size="lg" block onClick={() => this.startRound()} id="button">Start</Button>}
         {started && remainingTime > 0 &&
           <Button color="success" size="lg" block onClick={() => this.correct()}>
