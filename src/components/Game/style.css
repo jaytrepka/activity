@@ -77,8 +77,11 @@
   transition: all 0.2s ease;
 }
 .player.active {
-  border: 1px solid black;
+  border: 2px solid black;
   z-index: 5;
+}
+.player.armadillo {
+  background: darkturquoise;
 }
 .player.capybara {
   background: aliceblue;

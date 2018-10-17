@@ -20,10 +20,10 @@ export const loadGame = gameName => {
         });
       }
     } catch (error) {
-      return {
+      dispatch({
         type: "LOAD_GAME_ERROR",
         payload: error
-      };
+      });
     }
   }
 };
@@ -56,7 +56,6 @@ export const createGame = (gameName, teams, timePerRound, cardSet, drawing) => {
         payload: game
       });
     } catch (error) {
-      console.log('err', error, error.message)
       dispatch({
         type: "CREATE_GAME_ERROR",
         payload: error.message,
@@ -65,7 +64,7 @@ export const createGame = (gameName, teams, timePerRound, cardSet, drawing) => {
   };
 };
 
-export const moveTeam = (gameName, teamName, fieldsNumber) => {
+export const moveTeam = (gameName, teamName, fieldsNumber, dontChangePlayer = false) => {
   return async (dispatch) => { 
     try {
       dispatch({
@@ -78,6 +77,7 @@ export const moveTeam = (gameName, teamName, fieldsNumber) => {
           teamName,
           fieldsNumber,
           position: team.position,
+          dontChangePlayer,
         }
       });
     } catch (error) {

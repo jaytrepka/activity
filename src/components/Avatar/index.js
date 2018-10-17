@@ -1,4 +1,5 @@
 import React from "react";
+import Armadillo from "../../icons/Armadillo";
 import Capybara from "../../icons/Capybara";
 import DogUgly from "../../icons/DogUgly";
 import DogCute from "../../icons/DogCute";
@@ -9,6 +10,8 @@ import Penguin from "../../icons/Penguin";
 
 const Avatar = ({ avatar, ...props }: Props) => {
   switch (avatar) {
+    case 'armadillo':
+      return <Armadillo {...props} />;
     case 'dogCute':
       return <DogCute {...props} />;
     case 'dogUgly':

@@ -58,8 +58,6 @@ export const getGame = async gameName => {
 };
 
 export const getCards = (cardSet) => {
-  console.log('here', cardSet);
-  
   return database.ref(`/cards/${cardSet || 'default'}`).once("value");
 };
 
@@ -87,6 +85,7 @@ export const addCards = (cardSetName, id, textArray) => {
 };
 
 export const changeTeamPosition = (gameName, teamName, fieldsNumber) => {
+  
   return new Promise((resolve, reject) => {
     database
       .ref(`/games/${gameName}`)

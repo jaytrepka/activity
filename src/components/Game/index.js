@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { createGame } from "../../actions/game";
+import { createGame, moveTeam } from "../../actions/game";
 import { computePlayerPosition, plan } from "./helpers";
 import Card from "./card";
 import isEqual from 'lodash/isEqual';
@@ -35,24 +35,39 @@ class Game extends Component {
   changePosition = (nextProps) => {
     const { positions } = this.state;
     nextProps.game.teams.forEach((team, i) => {
-      if (team.position !== positions[i]) {
-        setTimeout(() => this.moveOneField(i, team.position - positions[i]), 200);
+      if (team.position !== this.props.game.teams[i].position) {
+        setTimeout(() => this.moveOneField(i, Math.abs(team.position - positions[i]), team.position - positions[i] < 0), 200);
       }
     }
     );
   }
 
-  moveOneField = (teamIndex, count) => {
+  moveOneField = (teamIndex, count, back = false) => {    
     if (count === 0) return;
     const newPositionStyles = [...this.state.positionStyles];
     const newPositions = [...this.state.positions];
-    const position = Math.min(this.state.positions[teamIndex] + 1, 50);
+    const position = back ? Math.max(this.state.positions[teamIndex] - 1, 0) : Math.min(this.state.positions[teamIndex] + 1, 50);
     newPositionStyles[teamIndex] = computePlayerPosition(position)
     newPositions[teamIndex] = position
     this.setState(() => ({ positions: newPositions, positionStyles: newPositionStyles })); 
-    if (count === 1) return;   
-    setTimeout(() => this.moveOneField(teamIndex, count - 1), 200);
+    // after last step
+    if (count === 1) {
+      if (!back) this.checkCollisions(teamIndex);
+      return;
+    }   
+    setTimeout(() => this.moveOneField(teamIndex, count - 1, back), 200);
   }
+
+  checkCollisions = (teamIndex) => {
+    const { game: { name, teams }, moveTeam } = this.props;
+    const playingTeam = teams[teamIndex];
+    teams.forEach((team, i) => {
+      if (i !== teamIndex && team.position === playingTeam.position) {
+        moveTeam(name, team.name, -1, true)
+      }
+    });
+  }
+
 
   render() {
     const { game, general } = this.props;
@@ -102,5 +117,5 @@ const mapStateToProps = ({ game, general }) => {
 };
 export default connect(
   mapStateToProps,
-  { createGame }
+  { createGame, moveTeam }
 )(Game);

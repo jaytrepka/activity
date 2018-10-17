@@ -12,7 +12,7 @@ class ReturnPlayer extends Component {
     e.preventDefault();
     const { selectedTeam, fieldsNumber } = this.state;
     const { game, moveTeam } = this.props;
-    moveTeam(game.name, game.teams[selectedTeam].name, fieldsNumber);
+    moveTeam(game.name, game.teams[selectedTeam].name, fieldsNumber, true);
     this.setState(() => ({ selectedTeam: 0, fieldsNumber: "" }));
   };
   render() {

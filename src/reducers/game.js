@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
       return action.payload;
     }
     case "MOVE_TEAM_SUCCESS": {
-      const { teamName, fieldsNumber } = action.payload;
+      const { dontChangePlayer, teamName, fieldsNumber } = action.payload;
       const teamIndex = state.teams.findIndex(team => team.name === teamName);
       const updatedTeam = {
         ...state.teams[teamIndex],
@@ -20,7 +20,8 @@ export default (state = initialState, action) => {
         updatedTeam,
         ...state.teams.slice(teamIndex + 1)
       ];
-      return { ...state, teams, playingTeam: (state.playingTeam + 1) % state.teams.length, activeCard: {} };
+      const playingTeam = dontChangePlayer ? state.playingTeam : (state.playingTeam + 1) % state.teams.length;
+      return { ...state, teams, playingTeam, activeCard: {} };
     }
     case "NEXT_TEAM": {
       return { ...state, playingTeam: (state.playingTeam + 1) % state.teams.length, activeCard: {} };
