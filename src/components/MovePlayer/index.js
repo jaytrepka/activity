@@ -2,22 +2,25 @@ import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { connect } from "react-redux";
 import { moveTeam } from "../../actions/game";
+import { setScreen } from "../../actions/general";
 class ReturnPlayer extends Component {
   state = {
+    isMoving: false,
     selectedTeam: 0,
     fieldsNumber: "",
   };
 
-  onSubmit = e => {
+  onSubmit = async e => {
     e.preventDefault();
     const { selectedTeam, fieldsNumber } = this.state;
     const { game, moveTeam } = this.props;
-    moveTeam(game.name, game.teams[selectedTeam].name, fieldsNumber, true);
-    this.setState(() => ({ selectedTeam: 0, fieldsNumber: "" }));
+    this.setState(() => ({ isMoving: true }));
+    await moveTeam(game.name, game.teams[selectedTeam].name, fieldsNumber, true);
+    this.setState(() => ({ selectedTeam: 0, fieldsNumber: "", isMoving: false }));
   };
   render() {
-    const { selectedTeam, fieldsNumber } = this.state;
-    const { game } = this.props;
+    const { selectedTeam, fieldsNumber, isMoving } = this.state;
+    const { game, setScreen } = this.props;
 
     return (
       <div className="container">
@@ -25,7 +28,7 @@ class ReturnPlayer extends Component {
           <div>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for="exampleSelect">Select avatar</Label>
+                <Label for="exampleSelect">Select team</Label>
                 <Input
                   type="select"
                   name="select"
@@ -36,27 +39,29 @@ class ReturnPlayer extends Component {
                   }
                 >
                   {game.teams.map((team, i) => (
-                    <option value={i}>{team.name}</option>
+                    <option value={i} key={team.name}>{team.name}</option>
                   ))}
                 </Input>
               </FormGroup>
               <FormGroup>
-                <Label for="fields">Time per round</Label>
+                <Label for="fields">Steps</Label>
                 <Input
                   type="text"
                   name="fields"
                   id="fields"
-                  placeholder="Enter time per round"
+                  placeholder="Enter number of steps (-x for going back)"
                   value={fieldsNumber}
                   onChange={e =>
                     this.setState({ fieldsNumber: e.target.value })
                   }
                 />
               </FormGroup>
-              <Button type="submit">Submit</Button>
+              <Button disabled={isMoving} type="submit">Submit</Button>
             </Form>
           </div>
         )}
+        
+        <Button disabled={isMoving} type="button" color="primary" onClick={() => setScreen('play')}>Go back</Button>
       </div>
     );
   }
@@ -68,5 +73,5 @@ const mapStateToProps = ({ game }) => {
 };
 export default connect(
   mapStateToProps,
-  { moveTeam }
+  { moveTeam, setScreen }
 )(ReturnPlayer);

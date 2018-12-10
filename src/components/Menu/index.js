@@ -1,18 +1,22 @@
 import React, { Component } from "react";
-import { loadGameScreen, toggleMenu } from "../../actions/general";
+import { loadGameScreen, setScreen, toggleMenu } from "../../actions/general";
 import { Button } from "reactstrap";
 import { connect } from "react-redux";
 import MenuIcon from "../../icons/Menu";
-import { newGame, takeCard } from '../../actions/game'
+import { newGame, takeCard, takeSpecialCard } from '../../actions/game'
 import { plan } from "../Game/helpers";
 
 import "./style.css";
 
 class Menu extends Component {
   takeCard = () => {
-    const { game, takeCard } = this.props;
+    const { game, takeCard, takeSpecialCard } = this.props;
     const card = plan[game.teams[game.playingTeam].position];
-    takeCard(card.activity, card.difficulty);
+    if (game.teams[game.playingTeam].position === 49) {
+      takeSpecialCard();
+    } else {
+      takeCard(card.activity, card.difficulty);
+    }
   };
   render() {
     const {
@@ -20,6 +24,7 @@ class Menu extends Component {
       general: { cardTaken, menuOpened, screen },
       loadGameScreen,
       newGame,
+      setScreen,
       toggleMenu
     } = this.props;
 
@@ -52,6 +57,7 @@ class Menu extends Component {
         <div className={`menu-drawer ${menuOpened ? "visible" : ""}`}>
           <div onClick={() => newGame()}>New Game</div>
           <div onClick={() => loadGameScreen()}>Load Game</div>
+          {screen === "play" && <div onClick={() => setScreen('movePlayer')}>Move Player</div>}
         </div>
       </div>
     );
@@ -63,4 +69,4 @@ const mapStateToProps = ({ game, general }) => {
     general
   };
 };
-export default connect(mapStateToProps, { loadGameScreen, newGame, takeCard, toggleMenu })(Menu);
+export default connect(mapStateToProps, { loadGameScreen, newGame, setScreen, takeCard, takeSpecialCard, toggleMenu })(Menu);

@@ -22,7 +22,7 @@ export default (state = initialState, action) => {
       return { ...state, isLoading: true, error: '', isError: false };
     }
     case "LOAD_GAME_SUCCESS": {
-      return { ...state, isLoading: false, screen: "play", cardTaken: false };
+      return { ...state, isLoading: false, screen: "play", cardTaken: false, specialCardTaken: false };
     }
     case "LOAD_GAME_ERROR": {
       return { ...state, isLoading: false, isError: true, error: action.payload };
@@ -36,18 +36,25 @@ export default (state = initialState, action) => {
     case "TAKE_CARD": {
       return { ...state, cardTaken: true };
     }
+    case "TAKE_SPECIAL_CARD": {
+      return { ...state, specialCardTaken: true };
+    }
     case "MOVE_TEAM_SUCCESS": {
-      const { position } = action.payload;
-      if (position === 50) {
+      const { gameEnd } = action.payload;
+      if (gameEnd) {
         return { ...state, cardTaken: false, screen: 'results' };
       }
       return { ...state, cardTaken: false };
     }
     case "NEXT_TEAM": {
-      return { ...state, cardTaken: false };
+      return { ...state, cardTaken: false, specialCardTaken: false };
     }
     case "LOAD_GAME_SCREEN": {
       return { ...state, isLoading: false, screen: "load", menuOpened: false };
+    }
+    case "SET_GAME_SCREEN": {
+      const { screen } = action.payload;
+      return { ...state, isLoading: false, screen, menuOpened: false };
     }
     case 'CLEAR_ERROR': {
       return { ...state, isError: false, error: '' };

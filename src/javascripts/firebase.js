@@ -84,8 +84,7 @@ export const addCards = (cardSetName, id, textArray) => {
   });
 };
 
-export const changeTeamPosition = (gameName, teamName, fieldsNumber) => {
-  
+export const changeTeamPosition = (gameName, teamName, fieldsNumber, gameEnd = false) => {
   return new Promise((resolve, reject) => {
     database
       .ref(`/games/${gameName}`)
@@ -95,7 +94,7 @@ export const changeTeamPosition = (gameName, teamName, fieldsNumber) => {
         const teamIndex = game.teams.findIndex(team => team.name === teamName);
         const updatedTeam = {
           ...game.teams[teamIndex],
-          position: Math.min(game.teams[teamIndex].position + Number(fieldsNumber), 50)
+          position: gameEnd ? 50 : Math.min(game.teams[teamIndex].position + Number(fieldsNumber), 49)
         };
         const teams = [
           ...game.teams.slice(0, teamIndex),

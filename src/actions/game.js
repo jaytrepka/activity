@@ -64,20 +64,21 @@ export const createGame = (gameName, teams, timePerRound, cardSet, drawing) => {
   };
 };
 
-export const moveTeam = (gameName, teamName, fieldsNumber, dontChangePlayer = false) => {
+export const moveTeam = (gameName, teamName, fieldsNumber, dontChangePlayer = false, gameEnd = false) => {
   return async (dispatch) => { 
     try {
       dispatch({
         type: "MOVE_TEAM_START",
       });
-      const team = await changeTeamPosition(gameName, teamName, fieldsNumber);
+      const team = await changeTeamPosition(gameName, teamName, fieldsNumber, gameEnd);
       dispatch({
         type: "MOVE_TEAM_SUCCESS",
         payload: {
           teamName,
           fieldsNumber,
-          position: team.position,
+          position: Math.max(team.position, 49),
           dontChangePlayer,
+          gameEnd,
         }
       });
     } catch (error) {
@@ -94,6 +95,17 @@ export const takeCard = (activity, difficulty) => ({
   payload: {
     activity,
     difficulty,
+  }
+});
+
+export const takeSpecialCard = () => ({
+  type: "TAKE_SPECIAL_CARD"
+});
+
+export const selectSpecialCard = (index) => ({
+  type: "SELECT_SPECIAL_CARD",
+  payload: {
+    index,
   }
 });
 

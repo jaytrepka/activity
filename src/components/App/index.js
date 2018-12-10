@@ -9,6 +9,7 @@ import Menu from '../Menu';
 import Results from '../Results';
 
 import './style.css';
+import MovePlayer from '../MovePlayer';
 
 
 class App extends Component {
@@ -28,6 +29,8 @@ class App extends Component {
           return <LoadGame />;
         case 'play':
           return <Game />;
+        case 'movePlayer':
+          return <MovePlayer />;
         case 'results':
           return <Results />;
       }

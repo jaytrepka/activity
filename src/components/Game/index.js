@@ -46,7 +46,7 @@ class Game extends Component {
     if (count === 0) return;
     const newPositionStyles = [...this.state.positionStyles];
     const newPositions = [...this.state.positions];
-    const position = back ? Math.max(this.state.positions[teamIndex] - 1, 0) : Math.min(this.state.positions[teamIndex] + 1, 50);
+    const position = back ? Math.max(this.state.positions[teamIndex] - 1, 0) : Math.min(this.state.positions[teamIndex] + 1, 49);
     newPositionStyles[teamIndex] = computePlayerPosition(position)
     newPositions[teamIndex] = position
     this.setState(() => ({ positions: newPositions, positionStyles: newPositionStyles })); 
@@ -62,7 +62,7 @@ class Game extends Component {
     const { game: { name, teams }, moveTeam } = this.props;
     const playingTeam = teams[teamIndex];
     teams.forEach((team, i) => {
-      if (i !== teamIndex && team.position === playingTeam.position) {
+      if (i !== teamIndex && team.position === playingTeam.position && team.position !== 49) {
         moveTeam(name, team.name, -1, true)
       }
     });
@@ -73,8 +73,8 @@ class Game extends Component {
     const { game, general } = this.props;
     const { positionStyles } = this.state;
 
-    if (general.cardTaken) {
-      return <Card />;
+    if (general.cardTaken || general.specialCardTaken) {
+      return <Card special={general.specialCardTaken} />;
     }
 
     return (

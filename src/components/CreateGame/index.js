@@ -108,7 +108,7 @@ class CreateGame extends Component {
   }
 
   render() {
-    const { cardSet, drawing, error, gameName, numberOfTeams, teams, timePerRound, validations } = this.state;
+    const { cardSet, drawing, error, gameName, numberOfTeams, teams, timePerRound } = this.state;
     return (
       <div style={{ padding: "10px" }}>
         <Form onSubmit={this.onSubmit}>
